@@ -1,0 +1,19 @@
+[
+  {
+    "modid": "${modid}",
+    "name": "${modname}",
+    "description": "${moddescription}",
+    "version": "${modversion}",
+    "mcversion": "${mcversion}",
+    "url": "${modurl}",
+    "updateUrl": "${modupdateurl}",
+    "authors": ["${modauthor}"],
+    "credits": "${modcredits}",
+    "logoFile": "",
+    "screenshots": [],
+    "requiredMods": [ ${modrequiredmods} ],
+    "dependencies": [ ${moddependencies} ],
+    "dependants": [ ${moddependants} ],
+    "useDependencyInformation": "true"
+  }
+]
