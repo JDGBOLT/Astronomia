@@ -10,3 +10,21 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Gradle Temporary Files
+/.gradle/
+/bin/
+/build/
+/run/
+
+# Eclipse Temporary Files
+/.settings/
+/.classpath
+/.project
+/eclipse/
+
+# Idea Files
+/*.iml
+/*.ipr
+/*.iws
+/.idea
