@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = 'forge'
+            url = 'http://files.minecraftforge.net/maven'
+        }
+        maven {
+            name = 'sonatype'
+            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:$FORGEGRADLE_VERSION"
+        classpath "org.ajoberstar:gradle-git:$GRADLEGIT_VERSION"
+    }
+}
+
+import org.ajoberstar.grgit.*
+apply from: 'gradle/functions.gradle'
+apply plugin: 'grgit-release'
+
+release {
+    try {
+        grgit = Grgit.open(project.file('.'))
+    }
+    catch (Exception e)
+    {
+        project.version = MOD_VERSION
+    }
+    version {
+        untaggedStages = ['snapshot'] as SortedSet
+        taggedStages = ['alpha', 'beta', 'rc'] as SortedSet
+        useBuildMetadataForStage = { stage -> stage == 'snapshot' }
+    }
+    generateTagMessage = project.ext.tagMessage
+    releaseTasks = ['commitVersion']
+}
+
+
+apply plugin: 'forge'
+
+group= MOD_ID // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "$MOD_ID-$MINECRAFT_VERSION"
+
+
+minecraft {
+    version = "$MINECRAFT_VERSION-$FORGE_VERSION"
+    replaceIn('src/main/java/astronomia/reference/AstroProps.java')
+    replace('${modid}', MOD_ID)
+    replace('${modversion}', "$MINECRAFT_VERSION-" + project.version.toString())
+    replace('${modname}', MOD_NAME)
+}
+
+dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version.toString()
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'modid':MOD_ID, 'modname':MOD_NAME, \
+               'moddescription':MOD_DESCRIPTION, 'modversion':"$MINECRAFT_VERSION-"+ project.version, \
+               'mcversion':project.minecraft.version, 'modurl':MOD_URL, \
+               'modupdateurl':MOD_UPDATEURL, 'modauthor':MOD_AUTHOR, \
+               'modcredits':MOD_CREDITS, 'modrequiredmods':MOD_REQUIREDMODS, \
+               'moddependencies':MOD_DEPENDENCIES, 'moddependants':MOD_DEPENDANTS
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+task commitVersion <<
+{
+    project.ext.updateVersion(project.version, Grgit.open(project.file('.')))
+}

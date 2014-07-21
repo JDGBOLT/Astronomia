@@ -1,0 +1,50 @@
+project.ext.tagMessage =
+{ version, grgit ->
+   StringBuilder builder = new StringBuilder()
+    builder.append('# ' + new Date().format('yyyy-MM-dd', TimeZone.getTimeZone('GMT')) + ' - ')
+    builder.append('Release of ')
+    builder.append(version)
+    builder.append('\n\n')
+    if (project.hasProperty('message')) builder.append(message.replace(/\n/, '\n') + '\n\n')
+    builder.append(project.ext.changelog(version, grgit, CHANGELOG_ADDITION_TAG, CHANGELOG_ADDITION_MESSAGE))
+    builder.append(project.ext.changelog(version, grgit, CHANGELOG_CHANGE_TAG, CHANGELOG_CHANGE_MESSAGE))
+    builder.append(project.ext.changelog(version, grgit, CHANGELOG_FIX_TAG, CHANGELOG_FIX_MESSAGE))
+    builder.toString()
+}
+
+project.ext.changelog = 
+{ version, grgit, filter, title ->
+   StringBuilder builder = new StringBuilder()
+   grgit.log {
+      range "${version.nearest.normal.toString()}^{commit}", 'HEAD'
+      }.inject(builder)
+      { bldr, commit ->
+         if (commit.shortMessage.contains(filter))
+         {
+            builder.append(commit.getDate().format('yyyy-MM-dd') + ' | ')
+            builder.append(commit.getAbbreviatedId(7) + ' | ')
+            builder.append('@' + commit.author.name + ' | ')
+            builder.append(commit.shortMessage + '\n')
+         }
+      }
+      if (builder.length() != 0)
+      {
+         builder.insert(0, " --------- | ------- | -------- | ------\n")
+         builder.insert(0, "   Date    | Commit  |  Author  | Change\n")
+         builder.insert(0, "## **$title**\n")
+         builder.append('\n')
+      }
+      return builder.toString()
+}
+
+project.ext.updateVersion =
+{ version, grgit ->
+   File propertiesFile = new File(project.projectDir, 'gradle.properties')
+   File changelogFile = new File(project.projectDir, 'CHANGELOG.md')
+   String changelog = project.ext.tagMessage(version, grgit)
+   propertiesFile.setText(propertiesFile.getText().replaceAll(
+      "MOD_VERSION=$MOD_VERSION", "MOD_VERSION=$version"))
+   changelogFile.setText(changelog + '-' * 40 + '\n' + changelogFile.getText())
+   grgit.add(patterns: ['gradle.properties', 'CHANGELOG.md'] as Set)
+   grgit.commit(message: changelog)
+}
