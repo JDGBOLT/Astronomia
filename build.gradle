@@ -65,9 +65,6 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
-    // adds CCL as a dependency
-    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev"
 }
 
 processResources
