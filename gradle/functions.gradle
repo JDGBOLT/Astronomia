@@ -1,3 +1,4 @@
+
 project.ext.tagMessage =
 { version, grgit ->
    StringBuilder builder = new StringBuilder()
@@ -47,4 +48,17 @@ project.ext.updateVersion =
    changelogFile.setText(changelog + '-' * 40 + '\n' + changelogFile.getText())
    grgit.add(patterns: ['gradle.properties', 'CHANGELOG.md'] as Set)
    grgit.commit(message: changelog)
+}
+
+project.ext.gitClone =
+{ repoPath, repoURL, hash, Grgit ->
+   File repo = new File(repoPath)
+   def grgit
+   if (!repo.exists()) {
+      grgit = Grgit.clone(dir: repo, uri: repoURL, checkout: false)
+   } else {
+      grgit = Grgit.open(repo)
+      grgit.fetch(prune: true)
+   }
+   grgit.checkout(branch: hash)
 }

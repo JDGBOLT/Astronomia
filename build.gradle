@@ -66,6 +66,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+    // adds CCL as a dependency
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev"
 }
 
 processResources
@@ -97,3 +99,47 @@ task commitVersion <<
 {
     project.ext.updateVersion(project.version, Grgit.open(project.file('.')))
 }
+
+// Checkout CoFHCore/Lib and add it to the main source set
+task checkoutCoFH <<
+{
+   project.ext.gitClone('src/cofh/lib', COFHLIB_URL, COFHLIB_HASH, Grgit)
+   project.ext.gitClone('src/cofh/core', COFHCORE_URL, COFHCORE_HASH, Grgit)
+   new File('src/cofh/core/src/main/resources/mcmod.info').delete()
+}
+
+project.tasks.compileApiJava.dependsOn checkoutCoFH
+
+sourceSets {
+   main {
+      java {
+         srcDir new File(project.projectDir, 'src/cofh/core/src/main/java')
+         srcDir new File(project.projectDir, 'src/cofh/lib/src/main/java')
+      }
+      resources {
+         srcDir new File(project.projectDir, 'src/cofh/core/src/main/resources')
+         srcDir new File(project.projectDir, 'src/cofh/lib/src/main/resources')
+      }
+   }
+}
+
+// Create new jars with the CoFH libraries stripped
+jar {
+    baseName 'combined'
+}
+
+task mainJar(type: Jar, dependsOn: 'reobf') {
+   from sourceSets.main.output
+   exclude 'cofh'
+   exclude 'skyboy'
+   exclude 'irclib'
+   exclude 'assets/cofh'
+   exclude 'CoFH_at.cfg'
+   exclude 'cofhlib_at.cfg'
+}
+
+artifacts {
+    archives mainJar
+}
+
+project.tasks.build.dependsOn mainJar
