@@ -1,4 +1,4 @@
-package astronomia.client.gui;
+package astronomia.gui;
 
 import astronomia.Astronomia;
 import cpw.mods.fml.client.IModGuiFactory;
@@ -33,14 +33,14 @@ public class AstroConfigGuiFactory implements IModGuiFactory
         public AstroConfigGui(GuiScreen parentScreen)
         {
             super(parentScreen, getCategories(), Astronomia.mod.info.modId, false, false, Astronomia.mod.info.name,
-                    GuiConfig.getAbridgedConfigPath(Astronomia.mod.config.config.toString()));
+                    GuiConfig.getAbridgedConfigPath(Astronomia.mod.config.getConfiguration().toString()));
         }
         private static List<IConfigElement> getCategories()
         {
             List<IConfigElement> categories = new ArrayList<IConfigElement>();
-            for (String category : Astronomia.mod.config.config.getCategoryNames())
+            for (String category : Astronomia.mod.config.getConfiguration().getCategoryNames())
             {
-                categories.add(new ConfigElement(Astronomia.mod.config.config.getCategory(category)));
+                categories.add(new ConfigElement(Astronomia.mod.config.getConfiguration().getCategory(category)));
             }
             return categories;
         }

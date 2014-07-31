@@ -41,15 +41,15 @@ release {
 apply plugin: 'forge'
 
 group= MOD_ID // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "$MOD_ID-$MINECRAFT_VERSION"
+archivesBaseName = "$MOD_ID-$MINECRAFT_VERSION".toLowerCase()
 
 
 minecraft {
     version = "$MINECRAFT_VERSION-$FORGE_VERSION"
-    replaceIn('src/main/java/astronomia/reference/AstroProps.java')
-    replace('${modid}', MOD_ID)
-    replace('${modversion}', "$MINECRAFT_VERSION-" + project.version.toString())
-    replace('${modname}', MOD_NAME)
+    replaceIn('src/main/java/astronomia/core/AstroProps.java')
+    replace('Astronomia Mod', MOD_NAME)
+    replace('Astronomia', MOD_ID)
+    replace('0.0.0', "$MINECRAFT_VERSION-" + project.version.toString())
 }
 
 dependencies {

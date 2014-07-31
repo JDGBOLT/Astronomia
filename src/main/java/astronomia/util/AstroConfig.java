@@ -1,8 +1,7 @@
-package astronomia.config;
+package astronomia.util;
 
 import astronomia.Astronomia;
-import astronomia.reference.AstroProps;
-import astronomia.util.ConfigHandler;
+import cofh.util.ConfigHandler;
 import net.minecraftforge.common.config.Configuration;
 
 public class AstroConfig

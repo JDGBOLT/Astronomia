@@ -1,9 +1,10 @@
 package astronomia;
 
-import astronomia.config.AstroConfig;
-import astronomia.proxy.CommonProxy;
-import astronomia.util.AstroMod;
-import astronomia.reference.AstroProps;
+import astronomia.util.AstroConfig;
+import astronomia.core.CommonProxy;
+import astronomia.core.AstroMod;
+import astronomia.core.AstroProps;
+import cofh.mod.BaseMod;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -15,11 +16,10 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Mod(modid = AstroProps.MODID, version = AstroProps.VERSION, name = AstroProps.NAME,
-     useMetadata = true, guiFactory = AstroProps.GUIFACTORY_CLASS)
-public class Astronomia
-{
+        useMetadata = true, guiFactory = AstroProps.GUIFACTORY_CLASS)
+public class Astronomia extends BaseMod {
     // Instance of the Mod
-    @Mod.Instance(value = AstroProps.MODID)
+    @Mod.Instance(AstroProps.MODID)
     public static Astronomia instance;
 
     // Proxy to separate server/client side code execution
@@ -33,37 +33,49 @@ public class Astronomia
     public static AstroConfig config;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        mod = new AstroMod(event.getSourceFile(), event.getModConfigurationDirectory(), event.getModMetadata(), event.getModLog());
+    public void preInit(FMLPreInitializationEvent event) {
+        setConfigFolderBase(event.getModConfigurationDirectory());
+        mod = new AstroMod(event.getSourceFile(), _configFolder, event.getModMetadata(),
+                event.getModLog(), getCommonConfig());
         config = new AstroConfig();
         proxy.preInit();
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         FMLCommonHandler.instance().bus().register(instance);
         proxy.init();
     }
 
     @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit();
-        if (mod.config.hasChanged()) mod.config.save();
+        if (mod.config.getConfiguration().hasChanged()) mod.config.save();
     }
 
     @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent event)
-    {
-        if (event.modID.equals(mod.info.modId))
-        {
-            if (mod.config.hasChanged())
-            {
+    public void onConfigChanged(ConfigChangedEvent event) {
+        if (event.modID.equals(mod.info.modId)) {
+            if (mod.config.getConfiguration().hasChanged()) {
                 mod.config.save();
                 config = new AstroConfig();
             }
         }
+    }
+
+    /* BaseMod */
+    @Override
+    public String getModId() {
+        return (mod != null) ? mod.info.modId : AstroProps.MODID;
+    }
+
+    @Override
+    public String getModName() {
+        return (mod != null) ? mod.info.name : AstroProps.NAME;
+    }
+
+    @Override
+    public String getModVersion() {
+        return (mod != null) ? mod.info.version : AstroProps.VERSION;
     }
 }

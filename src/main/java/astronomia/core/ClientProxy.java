@@ -1,6 +1,6 @@
-package astronomia.proxy;
+package astronomia.core;
 
-public class ServerProxy extends CommonProxy
+public class ClientProxy extends CommonProxy
 {
     @Override
     public void preInit()
