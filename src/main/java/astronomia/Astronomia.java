@@ -5,6 +5,7 @@ import astronomia.core.CommonProxy;
 import astronomia.core.AstroMod;
 import astronomia.core.AstroProps;
 import cofh.mod.BaseMod;
+import cofh.updater.UpdateManager;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -37,6 +38,9 @@ public class Astronomia extends BaseMod {
         setConfigFolderBase(event.getModConfigurationDirectory());
         mod = new AstroMod(event.getSourceFile(), _configFolder, event.getModMetadata(),
                 event.getModLog(), getCommonConfig());
+        if (mod.config.get("version", "VersionCheck", true, "Whether to check for mod updates at startup")) {
+            UpdateManager.registerUpdater(new UpdateManager(this, mod.info.updateUrl));
+        }
         config = new AstroConfig();
         proxy.preInit();
     }
@@ -50,7 +54,7 @@ public class Astronomia extends BaseMod {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit();
-        if (mod.config.getConfiguration().hasChanged()) mod.config.save();
+        mod.config.cleanUp(false, true);
     }
 
     @SubscribeEvent
@@ -76,6 +80,7 @@ public class Astronomia extends BaseMod {
 
     @Override
     public String getModVersion() {
-        return (mod != null) ? mod.info.version : AstroProps.VERSION;
+        return (mod != null) ? AstroProps.MCVERSION + 'R' + mod.info.version:
+                AstroProps.MCVERSION + 'R' + AstroProps.VERSION;
     }
 }

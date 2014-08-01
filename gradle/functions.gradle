@@ -4,7 +4,7 @@ project.ext.tagMessage =
    StringBuilder builder = new StringBuilder()
     builder.append('# ' + new Date().format('yyyy-MM-dd', TimeZone.getTimeZone('GMT')) + ' - ')
     builder.append('Release of ')
-    builder.append(version)
+    builder.append(project.ext.CoFHVersion(version))
     builder.append('\n\n')
     if (project.hasProperty('message')) builder.append(message.replace(/\n/, '\n') + '\n\n')
     builder.append(project.ext.changelog(version, grgit, CHANGELOG_ADDITION_TAG, CHANGELOG_ADDITION_MESSAGE))
@@ -42,11 +42,14 @@ project.ext.updateVersion =
 { version, grgit ->
    File propertiesFile = new File(project.projectDir, 'gradle.properties')
    File changelogFile = new File(project.projectDir, 'CHANGELOG.md')
+   File versionFile = new File(project.projectDir, 'VERSION')
    String changelog = project.ext.tagMessage(version, grgit)
+   String message = project.hasProperty('message') ? ' ' + message.replace(/\n/, '') : ''
    propertiesFile.setText(propertiesFile.getText().replaceAll(
       "MOD_VERSION=$MOD_VERSION", "MOD_VERSION=$version"))
    changelogFile.setText(changelog + '-' * 40 + '\n' + changelogFile.getText())
-   grgit.add(patterns: ['gradle.properties', 'CHANGELOG.md'] as Set)
+   versionFile.setText(project.ext.CoFHVersion(version) + message)
+   grgit.add(patterns: ['gradle.properties', 'CHANGELOG.md', 'VERSION'] as Set)
    grgit.commit(message: changelog)
 }
 
@@ -61,4 +64,12 @@ project.ext.gitClone =
       grgit.fetch(prune: true)
    }
    grgit.checkout(branch: hash)
+}
+
+project.ext.CoFHVersion =
+{ version ->
+   String result = version.toString()
+   result = result.replaceAll("-beta.", "B")
+   result = result.replaceAll("-rc.", "RC")
+   return result
 }

@@ -30,7 +30,7 @@ release {
     }
     version {
         untaggedStages = ['snapshot'] as SortedSet
-        taggedStages = ['alpha', 'beta', 'rc'] as SortedSet
+        taggedStages = ['beta', 'rc'] as SortedSet
         useBuildMetadataForStage = { stage -> stage == 'snapshot' }
     }
     generateTagMessage = project.ext.tagMessage
@@ -49,7 +49,8 @@ minecraft {
     replaceIn('src/main/java/astronomia/core/AstroProps.java')
     replace('Astronomia Mod', MOD_NAME)
     replace('Astronomia', MOD_ID)
-    replace('0.0.0', "$MINECRAFT_VERSION-" + project.version.toString())
+    replace('99.99.99', project.ext.CoFHVersion(project.version))
+    replace(/"1.7.10"/, /"${MINECRAFT_VERSION}\"/)
 }
 
 dependencies {
@@ -78,8 +79,8 @@ processResources
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'modid':MOD_ID, 'modname':MOD_NAME, \
-               'moddescription':MOD_DESCRIPTION, 'modversion':"$MINECRAFT_VERSION-"+ project.version, \
+        expand 'modid':MOD_ID, 'modname':MOD_NAME, 'moddescription':MOD_DESCRIPTION, \
+               'modversion':project.ext.CoFHVersion(project.version), \
                'mcversion':project.minecraft.version, 'modurl':MOD_URL, \
                'modupdateurl':MOD_UPDATEURL, 'modauthor':MOD_AUTHOR, \
                'modcredits':MOD_CREDITS, 'modrequiredmods':MOD_REQUIREDMODS, \
@@ -122,7 +123,7 @@ sourceSets {
 
 // Create new jars with the CoFH libraries stripped
 jar {
-    baseName 'combined'
+    baseName "combined-$MINECRAFT_VERSION"
 }
 
 task mainJar(type: Jar, dependsOn: 'reobf') {
