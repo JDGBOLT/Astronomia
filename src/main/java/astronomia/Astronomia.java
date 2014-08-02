@@ -3,7 +3,7 @@ package astronomia;
 import astronomia.core.AstroMod;
 import astronomia.core.AstroProps;
 import astronomia.core.CommonProxy;
-import astronomia.util.AstroConfig;
+import astronomia.core.AstroConfig;
 import cofh.mod.BaseMod;
 import cofh.updater.UpdateManager;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
