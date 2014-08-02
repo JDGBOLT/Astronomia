@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class AstroConfigGuiFactory implements IModGuiFactory {
+public class GuiConfigAstroFactory implements IModGuiFactory {
 
 	@Override
 	public void initialize(Minecraft minecraftInstance) {
@@ -22,7 +22,7 @@ public class AstroConfigGuiFactory implements IModGuiFactory {
 	@Override
 	public Class<? extends GuiScreen> mainConfigGuiClass() {
 
-		return AstroConfigGui.class;
+		return GuiConfigAstro.class;
 	}
 
 	@Override
@@ -37,21 +37,4 @@ public class AstroConfigGuiFactory implements IModGuiFactory {
 		return null;
 	}
 
-	public static class AstroConfigGui extends GuiConfig {
-
-		public AstroConfigGui(GuiScreen parentScreen) {
-
-			super(parentScreen, getCategories(), Astronomia.mod.info.modId, false, false, Astronomia.mod.info.name,
-					     GuiConfig.getAbridgedConfigPath(Astronomia.mod.config.getConfiguration().toString()));
-		}
-
-		private static List<IConfigElement> getCategories() {
-
-			List<IConfigElement> categories = new ArrayList<IConfigElement>();
-			for (String category : Astronomia.mod.config.getConfiguration().getCategoryNames()) {
-				categories.add(new ConfigElement(Astronomia.mod.config.getConfiguration().getCategory(category)));
-			}
-			return categories;
-		}
-	}
 }

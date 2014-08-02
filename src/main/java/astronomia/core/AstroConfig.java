@@ -1,4 +1,4 @@
-package astronomia.util;
+package astronomia.core;
 
 import astronomia.Astronomia;
 import cofh.util.ConfigHandler;
