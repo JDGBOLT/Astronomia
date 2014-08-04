@@ -17,6 +17,7 @@ buildscript {
 }
 
 import org.ajoberstar.grgit.*
+import org.ajoberstar.grgit.operation.*
 apply from: 'gradle/functions.gradle'
 apply plugin: 'grgit-release'
 
@@ -101,8 +102,8 @@ task commitVersion <<
 // Checkout CoFHCore/Lib and add it to the main source set
 task checkoutCoFH <<
 {
-   project.ext.gitClone('src/cofh/lib', COFHLIB_URL, COFHLIB_HASH, Grgit)
-   project.ext.gitClone('src/cofh/core', COFHCORE_URL, COFHCORE_HASH, Grgit)
+   project.ext.gitClone('src/cofh/lib', COFHLIB_URL, COFHLIB_HASH, Grgit, ResetOp.Mode.HARD)
+   project.ext.gitClone('src/cofh/core', COFHCORE_URL, COFHCORE_HASH, Grgit, ResetOp.Mode.HARD)
    new File('src/cofh/core/src/main/resources/mcmod.info').delete()
 }
 
