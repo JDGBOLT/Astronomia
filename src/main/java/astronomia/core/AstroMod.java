@@ -22,6 +22,6 @@ public final class AstroMod {
 		this.info = info;
 		this.configDir = configDir;
 		this.config = new ConfigHandler(this.info.version);
-		this.config.setConfiguration(new Configuration(configFile, this.info.version));
+		this.config.setConfiguration(new Configuration(configFile, this.info.version, true));
 	}
 }

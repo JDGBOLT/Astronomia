@@ -21,8 +21,10 @@ public class GuiConfigAstro extends GuiConfig {
 
 		List<IConfigElement> categories = new ArrayList<IConfigElement>();
 		for (String category : Astronomia.mod.config.getCategoryNames()) {
-			Astronomia.mod.log.info("Category: " + category);
-			if (!category.contains(".")) {
+			if (Astronomia.mod.config.getConfiguration().getCategory(category).getLanguagekey().equals(category)) {
+				Astronomia.mod.config.getConfiguration().setCategoryLanguageKey(category, "config." + Astronomia.mod.info.modId.toLowerCase() + "." + category);
+			}
+				if (!category.contains(".")) {
 				categories.add(new ConfigElement(Astronomia.mod.config.getCategory(category)));
 			}
 		}
