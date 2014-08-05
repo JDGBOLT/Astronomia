@@ -11,7 +11,5 @@ public class AstroConfig {
 	public class General {
 
 		public static final String category = Configuration.CATEGORY_GENERAL;
-	}
-
-	public final General general = new General();
+	} public final General general = new General();
 }
