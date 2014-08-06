@@ -1,0 +1,19 @@
+# en_US
+
+# Config Categories/Keys
+
+## Item Settings
+config.astronomia.item=Items
+config.astronomia.item.tooltip=Item settings, click on a item to access the settings
+config.astronomia.item.crafting=Item Crafting
+config.astronomia.item.crafting.tooltip=Enable/Disable the crafting of items, restart required
+config.astronomia.item.enable=Enable/Disable Items
+config.astronomia.item.enable.tooltip=Enable/Disable the crafting and presence of items, restart required
+
+## Block Settings
+config.astronomia.block=Blocks
+config.astronomia.block.tooltip=Block settings, click on a block to access the settings
+config.astronomia.block.crafting=Block Crafting
+config.astronomia.block.crafting.tooltip=Enable/Disable the crafting of blocks, restart required
+config.astronomia.block.enable=Enable/Disable Blocks
+config.astronomia.block.enable.tooltip=Enable/Disable the crafting and presence of blocks, restart required
