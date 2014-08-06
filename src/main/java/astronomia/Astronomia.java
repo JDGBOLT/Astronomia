@@ -51,7 +51,6 @@ public class Astronomia extends BaseMod {
 
 		setConfigFolderBase(event.getModConfigurationDirectory());
 		mod = new AstroMod(event.getSourceFile(), _configFolder, event.getModMetadata(),
-				                  event.getModLog(), getCommonConfig());
 				                  event.getModLog(), event.getSuggestedConfigurationFile());
 		if (mod.config.get("version", "VersionCheck", true, "Whether to check for mod updates at startup")) {
 			UpdateManager.registerUpdater(new UpdateManager(this, mod.info.updateUrl));

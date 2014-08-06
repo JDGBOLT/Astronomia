@@ -18,7 +18,7 @@ public class CreativeTabBlocks extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ItemStack getIconItemStack() {
-		return AstroItems.spyglass;
+		return AstroItems.basicSpyglass;
 	}
 
 	@Override
