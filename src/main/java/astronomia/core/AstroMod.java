@@ -14,12 +14,14 @@ public final class AstroMod {
 	public final File configDir;
 	public final ConfigHandler config;
 	public final ModMetadata info;
+	public final String assetId;
 
 	public AstroMod(File jar, File configDir, ModMetadata info, Logger log, File configFile) {
 
 		this.log = log;
 		this.jar = jar;
 		this.info = info;
+		this.assetId = info.modId.toLowerCase();
 		this.configDir = configDir;
 		this.config = new ConfigHandler(this.info.version);
 		this.config.setConfiguration(new Configuration(configFile, this.info.version, true));

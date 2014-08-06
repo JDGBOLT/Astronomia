@@ -19,13 +19,13 @@ public class ConfigHelper {
 
 	public static boolean blockEnabled(String name) {
 
-		String blockName = "block." + Astronomia.mod.info.modId.toLowerCase() + "." + name + ".name";
+		String blockName = "block." + Astronomia.mod.assetId + "." + name + ".name";
 		return Astronomia.mod.config.getProperty("block.enable", "block." + name, true).setRequiresMcRestart(true).setLanguageKey(blockName).getBoolean();
 	}
 
 	public static boolean itemEnabled(String name) {
 
-		String itemName = "item." + Astronomia.mod.info.modId.toLowerCase() + "." + name + ".name";
+		String itemName = "item." + Astronomia.mod.assetId + "." + name + ".name";
 		return Astronomia.mod.config.getProperty("item.enable", "item." + name, true).setRequiresMcRestart(true).setLanguageKey(itemName).getBoolean();
 	}
 

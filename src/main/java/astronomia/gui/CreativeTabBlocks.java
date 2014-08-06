@@ -32,6 +32,6 @@ public class CreativeTabBlocks extends CreativeTabs {
 	@SideOnly(Side.CLIENT)
 	public String getTabLabel() {
 
-		return Astronomia.mod.info.modId.toLowerCase() + ".creativeTabBlocks";
+		return Astronomia.mod.assetId + ".creativeTabBlocks";
 	}
 }

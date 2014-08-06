@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 public class AstroItemBase extends ItemBase {
 
 	public AstroItemBase() {
-		super(Astronomia.mod.info.modId.toLowerCase());
+		super(Astronomia.mod.assetId);
 		setCreativeTab(Astronomia.creativeTabItems);
 	}
 
