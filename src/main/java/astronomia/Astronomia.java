@@ -4,6 +4,8 @@ import astronomia.core.AstroMod;
 import astronomia.core.AstroProps;
 import astronomia.core.CommonProxy;
 import astronomia.core.AstroConfig;
+import astronomia.gui.CreativeTabBlocks;
+import astronomia.gui.CreativeTabItems;
 import cofh.mod.BaseMod;
 import cofh.updater.UpdateManager;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
@@ -34,6 +36,10 @@ public class Astronomia extends BaseMod {
 	// AstroConfig variable which handles all configuration related tasks
 	public static AstroConfig config;
 
+	// Creative Tabs
+	public static CreativeTabBlocks creativeTabBlocks;
+	public static CreativeTabItems creativeTabItems;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
@@ -46,6 +52,8 @@ public class Astronomia extends BaseMod {
 		}
 		config = new AstroConfig();
 		proxy.preInit();
+		creativeTabBlocks = new CreativeTabBlocks();
+		creativeTabItems = new CreativeTabItems();
 	}
 
 	@EventHandler
