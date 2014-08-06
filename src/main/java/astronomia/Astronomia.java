@@ -1,11 +1,13 @@
 package astronomia;
 
+import astronomia.block.AstroBlocks;
 import astronomia.core.AstroMod;
 import astronomia.core.AstroProps;
 import astronomia.core.CommonProxy;
 import astronomia.core.AstroConfig;
 import astronomia.gui.CreativeTabBlocks;
 import astronomia.gui.CreativeTabItems;
+import astronomia.item.AstroItems;
 import cofh.mod.BaseMod;
 import cofh.updater.UpdateManager;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
@@ -36,6 +38,10 @@ public class Astronomia extends BaseMod {
 	// AstroConfig variable which handles all configuration related tasks
 	public static AstroConfig config;
 
+	// Block/Item Registry Classes
+	public static AstroItems items;
+	public static AstroBlocks blocks;
+
 	// Creative Tabs
 	public static CreativeTabBlocks creativeTabBlocks;
 	public static CreativeTabItems creativeTabItems;
@@ -54,6 +60,10 @@ public class Astronomia extends BaseMod {
 		proxy.preInit();
 		creativeTabBlocks = new CreativeTabBlocks();
 		creativeTabItems = new CreativeTabItems();
+		items = new AstroItems();
+		blocks = new AstroBlocks();
+		items.preInit();
+		blocks.preInit();
 	}
 
 	@EventHandler
@@ -61,12 +71,16 @@ public class Astronomia extends BaseMod {
 
 		FMLCommonHandler.instance().bus().register(instance);
 		proxy.init();
+		items.init();
+		blocks.init();
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 
 		proxy.postInit();
+		items.postInit();
+		blocks.postInit();
 		mod.config.cleanUp(false, true);
 	}
 
@@ -77,6 +91,8 @@ public class Astronomia extends BaseMod {
 			if (mod.config.getConfiguration().hasChanged()) {
 				mod.config.save();
 				config = new AstroConfig();
+				items.configure();
+				blocks.configure();
 			}
 		}
 	}
