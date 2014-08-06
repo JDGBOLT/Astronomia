@@ -1,7 +1,6 @@
 package astronomia.util;
 
-import astronomia.util.ConfigHelper;
-import cofh.util.ItemHelper;
+import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
 
 public final class RecipeHelper {

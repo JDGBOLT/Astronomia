@@ -2,8 +2,8 @@ package astronomia.item;
 
 import astronomia.Astronomia;
 import astronomia.util.ConfigHelper;
-import cofh.item.ItemBase;
-import cofh.util.ItemHelper;
+import cofh.core.item.ItemBase;
+import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
 
 public class AstroItemBase extends ItemBase {
@@ -13,7 +13,7 @@ public class AstroItemBase extends ItemBase {
 		setCreativeTab(Astronomia.creativeTabItems);
 	}
 
-	/* Override of the addItem functions to eanble configuration checks before creating the item. */
+	/* Override of the addItem functions to enable configuration checks before creating the item. */
 
 	@Override
 	public ItemStack addItem(int number, String name, int rarity, boolean register) {

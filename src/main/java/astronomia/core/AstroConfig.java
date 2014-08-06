@@ -1,7 +1,7 @@
 package astronomia.core;
 
 import astronomia.Astronomia;
-import cofh.util.ConfigHandler;
+import cofh.core.util.ConfigHandler;
 import net.minecraftforge.common.config.Configuration;
 
 public class AstroConfig {

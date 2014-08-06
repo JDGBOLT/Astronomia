@@ -2,10 +2,6 @@ package astronomia.item;
 
 import astronomia.api.core.IConfigurable;
 import cofh.api.core.IInitializer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 
 public class ItemSpyglass extends AstroItemBase implements IInitializer, IConfigurable {
 

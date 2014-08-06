@@ -1,6 +1,6 @@
 package astronomia.core;
 
-import cofh.util.ConfigHandler;
+import cofh.core.util.ConfigHandler;
 import cpw.mods.fml.common.ModMetadata;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.Logger;
